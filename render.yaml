@@ -1,0 +1,37 @@
+services:
+  - type: web
+    name: docubot-backend
+    runtime: python
+    region: oregon # You can choose a region closer to you or your users
+    plan: free # Or your preferred plan
+    rootDir: chatbot_theme_identifier
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT --workers 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.9"
+      # IMPORTANT: You must add your GOOGLE_API_KEY and any other
+      # backend secrets as environment variables in the Render dashboard.
+      # Example for a secret:
+      # - key: GOOGLE_API_KEY
+      #   value: "your_actual_google_api_key_here" # Set this in Render's UI, not in the YAML for secrets
+      #   sync: false # Ensures it's treated as a secret
+
+  - type: web
+    name: docubot-frontend
+    runtime: python
+    region: oregon # Match the backend region or choose as needed
+    plan: free
+    rootDir: chatbot_theme_identifier
+    buildCommand: pip install -r frontend/requirements.txt
+    startCommand: streamlit run frontend/app.py --server.port $PORT --server.address=0.0.0.0 --server.headless=true
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.9"
+      - key: STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION # Often needed for Streamlit behind a proxy
+        value: "false"
+      - key: BACKEND_API_URL
+        fromService: # Automatically gets the URL of your backend service
+          type: web
+          name: docubot-backend
+          property: url
