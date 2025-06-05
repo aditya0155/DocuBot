@@ -31,7 +31,6 @@ services:
       - key: STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION # Often needed for Streamlit behind a proxy
         value: "false"
       - key: BACKEND_API_URL
-        fromService: # Automatically gets the URL of your backend service
-          type: web
-          name: docubot-backend
-          property: url
+        value: "YOUR_BACKEND_URL_HERE" # IMPORTANT: Manually set this in Render dashboard after backend deploys
+        # Example: https://docubot-backend.onrender.com
+        # fromService cannot directly provide the public URL.
