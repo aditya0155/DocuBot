@@ -1,0 +1,16 @@
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings # For loading settings from .env and environment variables
+python-dotenv
+python-multipart
+chromadb
+google-generativeai # For Google Gemini API interaction
+pytest-asyncio # For testing async code with pytest
+PyPDF2 # For PDF text extraction
+httpx # For testing FastAPI async endpoints
+pytesseract # For OCR from images
+# Add other dependencies as needed, e.g., for CSV processing, specific PDF readers, OCR
+# pandas # For CSV processing, if complex
+# pytesseract # For OCR
+# sentence-transformers # If using a local model for embeddings

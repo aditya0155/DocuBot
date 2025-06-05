@@ -1,0 +1,3 @@
+streamlit
+requests # For making API calls to the backend
+# Add other frontend-specific dependencies if any
