@@ -6,10 +6,10 @@ python-dotenv
 python-multipart
 chromadb
 google-generativeai # For Google Gemini API interaction
-pytest-asyncio # For testing async code with pytest
 PyPDF2 # For PDF text extraction
-httpx # For testing FastAPI async endpoints
-pytesseract # For OCR from images
+# httpx # For testing FastAPI async endpoints - REMOVED FOR PRODUCTION
+pytesseract # For OCR from images - CONSIDER REMOVING IF OCR NOT CRITICAL & TESSERACT ENGINE UNAVAILABLE/LARGE
+# pytest-asyncio # For testing async code with pytest - REMOVED FOR PRODUCTION
 # Add other dependencies as needed, e.g., for CSV processing, specific PDF readers, OCR
 # pandas # For CSV processing, if complex
 # pytesseract # For OCR
