@@ -4,7 +4,7 @@ services:
     runtime: python
     region: oregon # You can choose a region closer to you or your users
     plan: free # Or your preferred plan
-    rootDir: chatbot_theme_identifier
+    rootDir: .
     buildCommand: pip install -r backend/requirements.txt
     startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT --workers 1
     envVars:
@@ -22,7 +22,7 @@ services:
     runtime: python
     region: oregon # Match the backend region or choose as needed
     plan: free
-    rootDir: chatbot_theme_identifier
+    rootDir: .
     buildCommand: pip install -r frontend/requirements.txt
     startCommand: streamlit run frontend/app.py --server.port $PORT --server.address=0.0.0.0 --server.headless=true
     envVars:
