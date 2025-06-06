@@ -9,7 +9,7 @@ services:
     startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT --workers 1
     envVars:
       - key: PYTHON_VERSION
-        value: "3.9"
+        value: "3.9.18"
       # IMPORTANT: You must add your GOOGLE_API_KEY and any other
       # backend secrets as environment variables in the Render dashboard.
       # Example for a secret:
@@ -27,7 +27,7 @@ services:
     startCommand: streamlit run frontend/app.py --server.port $PORT --server.address=0.0.0.0 --server.headless=true
     envVars:
       - key: PYTHON_VERSION
-        value: "3.9"
+        value: "3.9.18"
       - key: STREAMLIT_SERVER_ENABLE_XSRF_PROTECTION # Often needed for Streamlit behind a proxy
         value: "false"
       - key: BACKEND_API_URL
