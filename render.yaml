@@ -4,12 +4,14 @@ services:
     runtime: python
     region: oregon # You can choose a region closer to you or your users
     plan: free # Or your preferred plan
-    rootDir: .
-    buildCommand: pip install -r backend/requirements.txt
-    startCommand: uvicorn backend.app.main:app --host 0.0.0.0 --port $PORT --workers 1
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT --workers 1
     envVars:
       - key: PYTHON_VERSION
         value: "3.9.18"
+      - key: CHROMA_DB_PATH
+        value: "./data/vector_store"
       # IMPORTANT: You must add your GOOGLE_API_KEY and any other
       # backend secrets as environment variables in the Render dashboard.
       # Example for a secret:
@@ -22,9 +24,9 @@ services:
     runtime: python
     region: oregon # Match the backend region or choose as needed
     plan: free
-    rootDir: .
-    buildCommand: pip install -r frontend/requirements.txt
-    startCommand: streamlit run frontend/app.py --server.port $PORT --server.address=0.0.0.0 --server.headless=true
+    rootDir: frontend
+    buildCommand: pip install -r requirements.txt
+    startCommand: streamlit run app.py --server.port $PORT --server.address=0.0.0.0 --server.headless=true
     envVars:
       - key: PYTHON_VERSION
         value: "3.9.18"
