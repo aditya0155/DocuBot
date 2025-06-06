@@ -10,8 +10,7 @@ services:
     envVars:
       - key: PYTHON_VERSION
         value: "3.9.18"
-      - key: CHROMA_DB_PATH
-        value: "./data/vector_store"
+      # CHROMA_DB_PATH is now managed by the user's .env secret file.
       # IMPORTANT: You must add your GOOGLE_API_KEY and any other
       # backend secrets as environment variables in the Render dashboard.
       # Example for a secret:
