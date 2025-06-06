@@ -1,9 +1,20 @@
 import streamlit as st
 import requests
 import json # For pretty printing JSON if needed for debugging
+import os # Import os to access environment variables
 
-# Configuration
-BACKEND_URL = "http://localhost:8000/api/v1/query" # Ensure this matches your backend host and port
+# Configuration for Backend API URL
+# Use the environment variable if available (set on Render), otherwise default to localhost for local dev
+BASE_API_URL = os.getenv("BACKEND_API_URL", "http://localhost:8000") # Render provides the full URL e.g. https://docubot-backend-feda.onrender.com/
+
+# Construct specific endpoint URLs
+# .rstrip('/') ensures that if the BASE_API_URL has a trailing slash, it's removed before appending the specific path,
+# preventing double slashes like 'https://...//api/v1'.
+QUERY_API_URL = f"{BASE_API_URL.rstrip('/')}/api/v1/query"
+DOCUMENTS_API_URL = f"{BASE_API_URL.rstrip('/')}/api/v1/documents"
+UPLOAD_MULTIPLE_API_URL = f"{DOCUMENTS_API_URL}/upload-multiple"
+
+# BACKEND_URL is now replaced by specific endpoint URLs like QUERY_API_URL
 
 st.set_page_config(page_title="DocuBot - Document Research", layout="wide")
 
@@ -22,13 +33,13 @@ def query_backend(query_text: str, n_results: int = 5):
         "n_results": n_results
     }
     try:
-        response = requests.post(BACKEND_URL, json=payload, timeout=120) # Increased timeout for potentially long LLM calls
+        response = requests.post(QUERY_API_URL, json=payload, timeout=120) # Increased timeout for potentially long LLM calls
         response.raise_for_status() # Raises an HTTPError for bad responses (4XX or 5XX)
         return response.json()
     except requests.exceptions.HTTPError as http_err:
         st.error(f"HTTP error occurred: {http_err} - {response.text}")
     except requests.exceptions.ConnectionError as conn_err:
-        st.error(f"Connection error: Could not connect to the backend at {BACKEND_URL}. Ensure the backend is running.")
+        st.error(f"Connection error: Could not connect to the backend at {QUERY_API_URL}. Ensure the backend is running.")
     except requests.exceptions.Timeout as timeout_err:
         st.error(f"Timeout error: The request to the backend timed out.")
     except requests.exceptions.RequestException as req_err:
@@ -60,11 +71,11 @@ if uploaded_files: # This will be a list of UploadedFile objects
             for uploaded_file_item in uploaded_files:
                 files_payload.append(('files', (uploaded_file_item.name, uploaded_file_item.getvalue(), uploaded_file_item.type)))
             
-            upload_url = "http://localhost:8000/api/v1/documents/upload-multiple" # Endpoint for multiple files
+            # upload_url = "http://localhost:8000/api/v1/documents/upload-multiple" # Now using UPLOAD_MULTIPLE_API_URL
             
             with st.spinner(f"Uploading and processing {len(uploaded_files)} file(s)..."):
                 try:
-                    response = requests.post(upload_url, files=files_payload, timeout=300) # Increased timeout for multiple files
+                    response = requests.post(UPLOAD_MULTIPLE_API_URL, files=files_payload, timeout=300) # Increased timeout for multiple files
                     response.raise_for_status()
                     upload_response_data = response.json()
                     st.sidebar.success(f"{len(uploaded_files)} file(s) processed!")
@@ -81,9 +92,9 @@ if uploaded_files: # This will be a list of UploadedFile objects
 st.sidebar.markdown("---")
 # Display list of documents
 st.sidebar.header("📚 Processed Documents")
-documents_list_url = "http://localhost:8000/api/v1/documents"
+# documents_list_url = "http://localhost:8000/api/v1/documents" # Now using DOCUMENTS_API_URL
 try:
-    doc_response = requests.get(documents_list_url, timeout=30)
+    doc_response = requests.get(DOCUMENTS_API_URL, timeout=30)
     doc_response.raise_for_status()
     docs_data = doc_response.json()
     if docs_data and docs_data.get("documents"):
