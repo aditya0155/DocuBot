@@ -172,9 +172,6 @@ The application will aim for robust error handling, providing informative messag
 
 ## 11. Future Enhancements
 
-*   **Advanced OCR Integration:**
-    *   Implement OCR (e.g., Tesseract, PaddleOCR) as a fallback for PDFs where direct text extraction fails.
-    *   Improve OCR preprocessing for better accuracy on noisy images.
 *   **Support for More Document Types:** Add parsers for DOCX (e.g., using `python-docx`), HTML, etc.
 *   **Enhanced Citation Precision:**
     *   Integrate PDF parsing libraries that provide more detailed layout information (page, paragraph, bounding boxes) to enable more precise citations.
@@ -196,18 +193,6 @@ The application will aim for robust error handling, providing informative messag
 *   **Security Hardening:** Review and implement security best practices, especially for file uploads and API endpoints.
 *   **Configuration Management:** Move more hardcoded values (like UPLOAD_DIRECTORY in `documents_api.py`) to the central configuration (`config.py` / `.env`).
 
-## 12. Brief Report
 
-A link to the brief report in the `docs/` directory will be provided here.
-
-## 13. Demo
-
-A link to the demo video/presentation in the `demo/` directory will be provided here.
-
-## 14. Contact Information
-
-*   **Intern:** Cline (AI Assistant)
-*   **Project Task From:** Divyansh Sharma – divyansh.sharma@thewasserstoff.com (Wasserstoff)
 
 ---
-*This README is a living document and will be updated throughout the project lifecycle.*
