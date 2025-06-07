@@ -11,32 +11,6 @@ This project is an AI-powered chatbot designed to ingest and process a large vol
 
 This project is being developed as part of the Wasserstoff AI Software Intern Task.
 
-## 2. Features
-
-*(To be populated as features are implemented)*
-
-**Core Functionalities (Planned):**
-*   [X] Document ingestion from CSV (25,000 legal cases). (Backend Complete & Tested)
-*   [X] Text extraction and preprocessing. (Backend Complete & Tested)
-*   [X] Document chunking and vectorization for semantic search. (Backend Complete & Tested)
-*   [X] Storage in a vector database (ChromaDB). (Backend Complete & Tested)
-*   [X] Natural language query processing. (Backend Complete & Tested)
-*   [X] Retrieval of relevant document snippets. (Backend Complete & Tested)
-*   [X] LLM-powered answer extraction from snippets with citations. (Backend Complete & Tested)
-*   [X] LLM-powered theme identification and synthesis from multiple document answers. (Backend Complete & Tested)
-*   [ ] Tabular display of individual document answers. (Frontend - Pending)
-*   [ ] Chat-style display of synthesized themes. (Frontend - Pending)
-*   [ ] Simple web UI (Streamlit). (Frontend - Pending)
-*   [ ] Document Upload Endpoint (for PDF, TXT, images). (Backend - Pending)
-*   [ ] Initial Document Management API (e.g., list documents). (Backend - Pending)
-*   [ ] API Integration Testing. (Backend - Pending)
-
-**Extra Credit Features (Potential):**
-*   [ ] Paragraph/sentence-level citations.
-*   [ ] Visual interface for mapping citations.
-*   [ ] Filtering by date, author, document type, relevance.
-*   [ ] User ability to include/exclude specific documents from search.
-
 ## 3. System Architecture
 
 The system is designed with a decoupled frontend and backend architecture to ensure modularity and scalability.
