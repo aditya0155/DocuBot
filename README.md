@@ -15,59 +15,6 @@ This project is being developed as part of the Wasserstoff AI Software Intern Ta
 
 The system is designed with a decoupled frontend and backend architecture to ensure modularity and scalability.
 
-```mermaid
-graph TD
-    UserInterface["User (Web Browser via Streamlit)"] -- HTTP Requests --> FrontendStreamlit["Streamlit Frontend (frontend/app.py)"];
-    FrontendStreamlit -- API Calls (JSON) --> BackendAPI["FastAPI Backend API (backend/app/main.py)"];
-    
-    subgraph BackendAPI [FastAPI Application]
-        APIRouters["API Routers (query_api.py, documents_api.py)"]
-        CoreServices["Core Services"]
-        ModelsSchemas["Pydantic Models (schemas.py)"]
-        Configuration["Configuration (config.py, .env)"]
-    end
-
-    BackendAPI -- Uses --> CoreServices;
-    APIRouters -- Uses --> ModelsSchemas;
-    APIRouters -- Handles Requests & Uses --> CoreServices;
-
-    subgraph CoreServices [Core Services (backend/app/services/)]
-        DocIngestor["DocumentIngestorService (document_ingestor.py - CSV)"]
-        DocProcessor["DocumentProcessorService (document_processor.py - Clean, Chunk, Embed)"]
-        VectorDB["VectorDBService (vector_db_service.py - ChromaDB Interaction)"]
-        QueryProc["QueryProcessorService (query_processor.py - Semantic Search, Answer Extraction)"]
-        ThemeAnalyzer["ThemeAnalyzerService (theme_analyzer.py - Theme Identification)"]
-    end
-    
-    CoreServices -- Interacts with --> ExternalServices["External Services & Storage"];
-
-    subgraph ExternalServices
-        GeminiAPI["Google Gemini API (Embeddings & Chat Models via google-generativeai SDK)"]
-        ChromaDBStore["ChromaDB (Vector Store - backend/data/vector_store/)"]
-        UploadedFiles["Uploaded Files (backend/data/uploads/)"]
-        OriginalCSV["Original CSV (legal_text_classification.csv)"]
-    end
-
-    DocIngestor -- Reads --> OriginalCSV;
-    DocProcessor -- Uses --> GeminiAPI;
-    DocProcessor -- Outputs Chunks/Embeddings to --> VectorDB;
-    VectorDB -- Stores/Retrieves from --> ChromaDBStore;
-    QueryProc -- Uses --> VectorDB;
-    QueryProc -- Uses --> GeminiAPI;
-    ThemeAnalyzer -- Uses --> GeminiAPI;
-    
-    %% For Document Upload Flow (Simplified)
-    FrontendStreamlit -- Uploads File --> APIRouters;
-    APIRouters -- Saves File to --> UploadedFiles;
-    APIRouters -- Uses --> DocProcessor; %% For uploaded file processing
-    %% DocProcessor then uses GeminiAPI and VectorDB as above
-
-    style UserInterface fill:#f9f,stroke:#333,stroke-width:2px
-    style FrontendStreamlit fill:#ccf,stroke:#333,stroke-width:2px
-    style BackendAPI fill:#9cf,stroke:#333,stroke-width:2px
-    style CoreServices fill:#lightgrey,stroke:#333,stroke-width:2px
-    style ExternalServices fill:#grey,stroke:#333,stroke-width:2px
-```
 
 **Detailed Components:**
 *   **Frontend:** Streamlit application (`frontend/app.py`) for user interaction.
